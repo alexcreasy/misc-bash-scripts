@@ -3,7 +3,7 @@
 DEFAULT_OUT_DIR=${GIFENC_DIR:-.}
 DEFAULT_FPS=${GIFENC_FPS:-15}
 DEFAULT_WIDTH=${GIFENC_WIDTH:-1}
-DEFAULT_HEIGHT=${GIFENC_HEIGH:-1}
+DEFAULT_HEIGHT=${GIFENC_HEIGHT:-1}
 
 INPUT_FILE="$1"
 OUTPUT_FILE="$2"
@@ -31,8 +31,8 @@ palette="/tmp/palette.png"
 
 filters="fps=$FPS,scale=$WIDTH:$HEIGHT:flags=lanczos"
 
-ffmpeg -v warning -i $INPUT_FILE -vf "$filters,palettegen" -y $palette
-ffmpeg -v warning -i $INPUT_FILE -i $palette -lavfi "$filters [x]; [x][1:v] paletteuse" -y $OUTPUT_FILE
+ffmpeg -v warning -i "$INPUT_FILE" -vf "$filters,palettegen" -y $palette
+ffmpeg -v warning -i "$INPUT_FILE" -i $palette -lavfi "$filters [x]; [x][1:v] paletteuse" -y "$OUTPUT_FILE"
 
 
 size=$(wc -c <"$OUTPUT_FILE")
